@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	table := model.Table{MaxCoordinate: model.Coordinate{5, 5}, Robot: nil}
+	table := model.Table{MaxCoordinate: model.Coordinate{X: 5, Y: 5}, Robot: nil}
 
 	scanner := bufio.NewScanner(os.Stdin)
 

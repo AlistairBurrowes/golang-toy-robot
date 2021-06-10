@@ -7,12 +7,12 @@ import (
 )
 
 func TestPlaceCommand(t *testing.T) {
-	initialTable := model.Table{MaxCoordinate: model.Coordinate{5, 5}, Robot: nil}
-	command := model.PlaceCommand{model.Coordinate{X: 1, Y: 1}, model.North}
+	initialTable := model.Table{MaxCoordinate: model.Coordinate{X: 5, Y: 5}, Robot: nil}
+	command := model.PlaceCommand{Coordinate: model.Coordinate{X: 1, Y: 1}, Facing: model.North}
 
 	resultTable := ProcessCommand(initialTable, command)
 
-	expectedTable := model.Table{MaxCoordinate: model.Coordinate{5, 5}, Robot: &model.Robot{Position: model.Coordinate{1, 1}, Facing: model.North}}
+	expectedTable := model.Table{MaxCoordinate: model.Coordinate{X: 5, Y: 5}, Robot: &model.Robot{Position: model.Coordinate{X: 1, Y: 1}, Facing: model.North}}
 
 	// I believe DeepEqual is required because == will only compare pointers for equality when something is a pointer to a value.
 	// In this case the expectedTable has its own Robot created in place
@@ -22,7 +22,7 @@ func TestPlaceCommand(t *testing.T) {
 }
 
 func TestReportCommand(t *testing.T) {
-	initialTable := model.Table{MaxCoordinate: model.Coordinate{5, 5}, Robot: &model.Robot{Position: model.Coordinate{1, 1}, Facing: model.North}}
+	initialTable := model.Table{MaxCoordinate: model.Coordinate{X: 5, Y: 5}, Robot: &model.Robot{Position: model.Coordinate{X: 1, Y: 1}, Facing: model.North}}
 	command := model.ReportCommand{}
 
 	resultTable := ProcessCommand(initialTable, command)
