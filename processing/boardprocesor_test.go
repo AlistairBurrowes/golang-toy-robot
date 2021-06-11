@@ -42,6 +42,9 @@ func TestRobotCannotGoOffBoard(t *testing.T) {
 
 		if resultTable.Robot != nil &&
 		  (resultTable.Robot.Position.X < 1 || resultTable.Robot.Position.X > 5 || resultTable.Robot.Position.Y < 1 || resultTable.Robot.Position.Y > 5) {
+			// the rapid logging will not log into points https://github.com/flyingmutant/rapid/issues/7
+			// so we print out what table we eneded up with
+			t.Logf("Initial table: %s", table)
 			t.Errorf("Test failure got: %s", resultTable)
 		}
 	})
