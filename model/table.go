@@ -17,6 +17,6 @@ func GenTable(t *rapid.T) Table {
 	robotGen := rapid.Custom(GenRobot)
 	return Table{
 		MaxCoordinate: Coordinate{X: 5, Y: 5},
-		Robot: rapid.Custom(rapid.Ptr(robotGen, true)).Draw(t, "TableRobot").(*Robot),
+		Robot: rapid.Ptr(robotGen, true).Draw(t, "TableRobot").(*Robot),
 	}
 }
