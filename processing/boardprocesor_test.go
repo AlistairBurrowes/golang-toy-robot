@@ -2,11 +2,10 @@ package processing
 
 import (
 	"golang-toy-robot/model"
-	"net"
 	"reflect"
 	"testing"
 
-	"pgregory.net/rapid"
+	rapid "pgregory.net/rapid"
 )
 
 func TestPlaceCommand(t *testing.T) {
@@ -35,17 +34,15 @@ func TestReportCommand(t *testing.T) {
 	}
 }
 
-func TestParseValidIPv4(t *testing.T) {
-	const ipv4re = `(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])` +
-		`\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])` +
-		`\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])` +
-		`\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])`
-
+func TestRobotCannotGoOffBoard(t *testing.T) {
 	rapid.Check(t, func(t *rapid.T) {
-		addr := rapid.StringMatching(ipv4re).Draw(t, "addr").(string)
-		ip := net.ParseIP(addr)
-		if ip == nil || ip.String() != addr {
-			t.Fatalf("parsed %q into %v", addr, ip)
+		table := rapid.Custom(model.GenTable).Draw(t, "table").(model.Table)
+		command := rapid.Custom(model.GenCommand).Draw(t, "table").(model.Command)
+		resultTable := ProcessCommand(table, command)
+
+		if resultTable.Robot != nil &&
+		  (resultTable.Robot.Position.X < 1 || resultTable.Robot.Position.X > 5 || resultTable.Robot.Position.Y < 1 || resultTable.Robot.Position.Y > 5) {
+			t.FailNow()
 		}
 	})
 }
