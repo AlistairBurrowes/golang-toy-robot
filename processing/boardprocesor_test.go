@@ -37,7 +37,7 @@ func TestReportCommand(t *testing.T) {
 func TestRobotCannotGoOffBoard(t *testing.T) {
 	rapid.Check(t, func(t *rapid.T) {
 		table := rapid.Custom(model.GenTable).Draw(t, "table").(model.Table)
-		command := rapid.Custom(model.GenCommand).Draw(t, "table").(model.Command)
+		command := rapid.Custom(model.GenCommand).Draw(t, "command").(model.Command)
 		resultTable := ProcessCommand(table, command)
 
 		if resultTable.Robot != nil &&
