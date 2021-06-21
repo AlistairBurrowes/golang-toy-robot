@@ -1,5 +1,9 @@
 package model
 
+import (
+	rapid "pgregory.net/rapid"
+)
+
 type Direction int
 
 const (
@@ -24,4 +28,9 @@ func (c Direction) String() string {
 	}
 
 	return result
+}
+
+func GenDirection(t *rapid.T) Direction {
+	gen := rapid.SampledFrom([]Direction{North, East, South, West})
+	return gen.Draw(t, "Direction").(Direction)
 }

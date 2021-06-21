@@ -4,6 +4,8 @@ import (
 	"golang-toy-robot/model"
 	"reflect"
 	"testing"
+
+	rapid "pgregory.net/rapid"
 )
 
 func TestReportRobot(t *testing.T) {
@@ -43,4 +45,16 @@ func TestMove(t *testing.T) {
 			}
 		})
 	}
+}
+
+func TestMoveRobotCannotGoOffBoard(t *testing.T) {
+	rapid.Check(t, func(t *rapid.T) {
+		maxCoordinate := model.Coordinate{X: 5, Y: 5}
+		robot := rapid.Custom(model.GenRobot).Draw(t, "robot").(model.Robot)
+		resultRobot := move(robot, maxCoordinate)
+
+		if resultRobot.Position.X < 1 || resultRobot.Position.X > 5 || resultRobot.Position.Y < 1 || resultRobot.Position.Y > 5 {
+			t.Errorf("Test failure got: %s", resultRobot)
+		}
+	})
 }
